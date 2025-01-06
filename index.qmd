@@ -1,0 +1,824 @@
+---
+title: "Analisis pengaruh PDB Indonesia dan PDB negara mitra dagang ASEAN, serta jarak ekonomi terhadap nilai ekspor Indonesia"
+subtitle: "Metode Penelitian Politeknik APP Jakarta"
+author: "Viny Nazayira Tiara Ananda"
+date: 2025-01-07
+number-sections: true
+format:
+  html: default
+  html-math-method: default
+  docx: default
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+![](poltekapp.jpg){fig-align="center" width="50%"}
+
+::: {style="text-align: justify"}
+## Pendahuluan
+
+### Latar belakang
+
+Indonesia, sebagai salah satu negara berkembang dengan ekonomi terbesar
+di Asia Tenggara, memiliki peran penting dalam perdagangan
+internasional, khususnya di kawasan ASEAN. Perdagangan antarnegara di
+ASEAN menawarkan peluang besar bagi peningkatan ekspor Indonesia,
+mengingat hubungan ekonomi yang erat dan perjanjian perdagangan bebas di
+antara negara-negara anggotanya. Nilai ekspor Indonesia dipengaruhi oleh
+berbagai faktor, termasuk Produk Domestik Bruto (PDB) domestik, PDB
+negara mitra dagang, serta jarak ekonomi yang mencerminkan perbedaan
+tingkat pembangunan dan daya saing antar negara.
+
+Dalam konteks perekonomian global yang semakin terintegrasi, PDB
+merupakan indikator penting yang mencerminkan kapasitas ekonomi suatu
+negara untuk memproduksi barang dan jasa. PDB yang tinggi menunjukkan
+potensi daya beli yang lebih besar, yang dapat mendorong permintaan
+terhadap produk ekspor. Sementara itu, hubungan perdagangan dengan
+negara-negara ASEAN, yang merupakan mitra dagang utama Indonesia,
+menambah kompleksitas analisis ini. Jarak ekonomi, sebagai faktor
+penghalang dalam perdagangan internasional, juga berperan penting dalam
+menentukan seberapa efisien dan efektifnya interaksi perdagangan antara
+Indonesia dan negara-negara tetangganya.
+
+Oleh karena itu, penelitian ini bertujuan untuk mengkaji pengaruh PDB
+Indonesia, PDB negara-negara mitra dagang ASEAN, dan jarak ekonomi
+terhadap nilai ekspor Indonesia, sekaligus memberikan pemahaman lebih
+mendalam mengenai hubungan dagang di kawasan ini.
+
+### Ruang lingkup
+
+**Ruang Lingkup Penelitian**
+
+Penelitian ini difokuskan pada analisis nilai ekspor Indonesia ke
+negara-negara mitra dagang di kawasan ASEAN, yaitu Malaysia, Singapura,
+Thailand, Vietnam, Laos, Myanmar, Filipina, Kamboja, dan Brunei
+Darussalam. Data yang digunakan dalam penelitian ini mencakup data
+Produk Domestik Bruto (PDB) dari negara-negara tersebut, termasuk
+Indonesia, yang diperoleh dari World Bank. Selain itu, data nilai ekspor
+Indonesia ke masing-masing negara mitra dagang ASEAN diambil dari basis
+data UN Comtrade. Untuk mengukur jarak ekonomi antarnegara, penelitian
+ini menggunakan data geografis yang tersedia di CEPII Geodist. Dengan
+cakupan data yang komprehensif tersebut, penelitian ini diharapkan dapat
+memberikan pemahaman yang mendalam mengenai pengaruh PDB dan jarak
+ekonomi terhadap nilai ekspor Indonesia di kawasan ASEAN. Nilai ekspor
+indonesia terhadap negara partner ekspor ASEAN, berperan sebagai
+variabel dependen. Sedangkan PDB Indonesia, PDB negara partner, dan
+Jarak antar negara berperan sebagai variabel independen.
+
+### Rumusan masalah
+
+Berdasarkan analisis gravity model yang akan dilakukan,rumuskan masalah
+penelitian adalah sebagai berikut:
+
+1.  Bagaimana pengaruh PDB Indonesia, PDB negara partner dan jarak
+    geografis terhadap nilai ekspor Indonesia ke negara-negara ASEAN?
+2.  Apakah ada hubungan signifikan dari Variabel independen yang dipilih
+    terhadap nilai ekspor Indonesia ke negara ASEAN.
+
+### Tujuan dan manfaat penelitian
+
+Berdasarkan latar belakang dan rumusan masalah diatas, maka tujuan utama
+penelitian ini adalah Menganalisis pengaruh Produk Domestik Bruto (PDB)
+Indonesia, PDB negara mitra dagang ASEAN, dan jarak ekonomi terhadap
+nilai ekspor Indonesia menggunakan pendekatan gravity model.
+
+Adapun manfaat penelitian ini adalah:
+
+-   Manfaat Teoritis:
+
+    -   Memperkaya pemahaman tentang determinan ekspor Indonesia dalam
+        konteks integrasi ekonomi ASEAN
+
+    -   Menyediakan bukti empiris tentang pengaruh variabel makroekonomi
+        terhadap kinerja ekspor Indonesia
+
+-   Manfaat Praktis:
+
+    -   Bagi pemerintah:
+
+        -   Memberikan masukan untuk perumusan kebijakan perdagangan
+            internasional
+
+        -   Membantu dalam evaluasi efektivitas kerja sama ekonomi
+            regional
+
+        -   Mendukung pengambilan keputusan terkait pengembangan
+            hubungan perdagangan bilateral
+
+    -   Bagi pelaku usaha:
+
+        -   Memberikan informasi tentang potensi pasar ekspor di kawasan
+            ASEAN
+
+        -   Membantu dalam perencanaan strategi ekspor berdasarkan
+            karakteristik negara tujuan
+
+        -   Meningkatkan pemahaman tentang faktor-faktor yang
+            mempengaruhi kinerja ekspor
+
+    -   Bagi akademisi:
+
+        -   Menyediakan referensi untuk penelitian selanjutnya dalam
+            bidang perdagangan internasional
+
+        -   Memberikan metodologi yang dapat direplikasi untuk analisis
+            serupa
+
+        -   Berkontribusi pada pengembangan model empiris dalam studi
+            ekonomi internasional
+
+### Package
+
+Packages yang digunakan antara lain sebagai berikut:
+
+```{r}
+#| warning: false
+#| echo: true
+library(wbstats)      # Untuk data World Bank
+library(tidyverse)    # Data manipulation
+library(gravity)      # Gravity model utilities
+library(readxl)       # Membaca Excel
+library(plm)          # Panel data analysis
+library(stargazer)    # Reporting regresi
+library(lmtest)       # Diagnostic tests
+library(sandwich)     # Robust standard errors
+library(ggplot2)      # Membuat plot level vs log
+library(gridExtra)    # Menampilkan multiple plot
+library(scales)
+library(knitr)
+library(kableExtra)
+
+```
+
+## Studi pustaka
+
+**1. Ekspor**
+
+Ekspor adalah bentuk perdagangan yang dilakukan oleh individu, badan
+usaha, atau lembaga dengan tujuan menjalankan aktivitas perdagangan
+antarnegara. Berdasarkan Undang-Undang Kepabeanan Pasal 1 ayat 14,
+pemerintah mendorong peningkatan cadangan devisa melalui pengembangan
+arus ekspor. Oleh karena itu, pemerintah memberikan kemudahan untuk
+barang-barang yang akan diekspor dengan menghindari pemeriksaan fisik,
+kecuali untuk barang tertentu yang diatur dalam ketentuan (Pabean,
+2017).
+
+Selain itu, menurut Peraturan Pemerintah Republik Indonesia Nomor 2
+Tahun 2009, ekspor didefinisikan sebagai kegiatan membawa barang keluar
+dari wilayah pabean. Wilayah pabean yang dimaksud mencakup seluruh
+wilayah Republik Indonesia, meliputi daratan, perairan, ruang udara di
+atasnya, serta area tertentu di Zona Ekonomi Eksklusif dan landas
+kontinen, dengan tetap mematuhi peraturan dan ketentuan yang berlaku.
+
+**2. Produk Domestik Bruto**
+
+Produk Domestik Bruto (PDB) adalah indikator utama yang digunakan untuk
+mengukur aktivitas ekonomi nasional suatu negara. Secara prinsip, PDB
+menghitung total volume produksi dalam suatu wilayah negara berdasarkan
+aspek geografis. Dalam bahasa Inggris, PDB dikenal sebagai Gross
+Domestic Product (GDP), yang mencakup nilai barang dan jasa yang
+dihasilkan dalam suatu negara, baik oleh faktor produksi milik warga
+negara tersebut maupun oleh pihak asing yang beroperasi di negara
+tersebut (Sukirno, 2013:35).
+
+**3. Pengaruh PDB Terhadap Ekspor**
+
+Produk Domestik Bruto (PDB) mencakup seluruh aktivitas ekonomi yang
+menghasilkan atau menyediakan barang dan jasa, yang dipengaruhi oleh
+berbagai faktor internal dalam suatu negara. PDB akan meningkat seiring
+dengan naiknya nilai ekspor suatu negara. Hal ini menunjukkan bahwa
+barang atau jasa yang dihasilkan oleh negara tersebut diminati oleh
+negara lain. Ketika ekspor lebih besar dibandingkan impor, aktivitas
+ekonomi masyarakat pun akan meningkat secara signifikan (Puspandari,
+2022).
+
+## Metode penelitian
+
+### Data
+
+Berikut adalah data yang saya gunakan dalam penelitian ini, data berikut
+merupakan data PDB negara ASEAN, Data nilai ekspor dan Data jarak yang
+saya jadikan satu tabel model gravity.
+
+```{r}
+setwd("D:/UAS-Metopel")
+
+# 1. MENGAMBIL DATA
+
+## 1.1 Data PDB dari World Bank
+# Definisi negara ASEAN
+asean_countries <- c("IDN", "MYS", "SGP", "THA", "PHL", "VNM", 
+                     "BRN", "KHM", "LAO", "MMR")
+
+# Mengambil data GDP
+gdp_data <- wb_data(
+  indicator = "NY.GDP.MKTP.CD",  # GDP (current US$)
+  country = asean_countries,
+  start_date = 2015,
+  end_date = 2022
+)
+
+
+# Membersihkan data GDP
+gdp_clean <- gdp_data %>%
+  select(country, date, NY.GDP.MKTP.CD) %>%
+  rename(year = date,
+         GDP = NY.GDP.MKTP.CD ) %>%
+  arrange(country, year)
+
+
+## 1.2 Import data perdagangan
+# Asumsikan data dari UN Comtrade sudah didownload
+trade_data <- read_excel("D:/UAS-Metopel/TradeData.xlsx")  # Sesuaikan path file
+
+# Membersihkan data perdagangan
+trade_clean <- trade_data %>%
+  select(year, reporter, partner, primaryValue) %>%
+  filter(reporter == "Indonesia") %>%
+  rename(exports = primaryValue) %>%
+  select(-reporter)
+
+# Import data jarak
+distance_data <- read_excel("D:/UAS-Metopel/dist_cepii.xls")
+
+# 4. Membersihkan data jarak
+distance_clean <- distance_data %>%
+  select(iso_o, iso_d, dist) %>%
+  filter(iso_o == "IDN")%>% 
+  rename(partner = iso_d,
+         distance = dist) %>%
+  select(-iso_o)  # Menghapus kolom iso_o karena sudah tidak diperlukan
+
+# Bagian sebelumnya tetap sama sampai pembersihan data awal
+
+# Memperbaiki struktur data GDP
+# GDP Indonesia
+gdp_indonesia <- gdp_clean %>%
+  filter(country == "Indonesia") %>%
+  select(year, GDP) %>%
+  rename(gdp_indonesia = GDP)
+
+# GDP negara partner
+gdp_partner <- gdp_clean %>%
+  filter(country != "Indonesia") %>%
+  select(country, year, GDP) %>%
+  rename(partner = country,
+         gdp_partner = GDP)
+
+
+# MENGGABUNGKAN DATA - Metode yang diperbaiki
+gravity_data <- trade_clean %>%
+  # Step 1: Gabung dengan GDP Indonesia
+  left_join(gdp_indonesia, by = "year") %>%
+  # Step 2: Gabung dengan GDP partner
+  left_join(gdp_partner, by = c("partner", "year")) %>%
+  # Step 3: Gabung dengan data jarak
+  left_join(distance_clean, by = "partner") %>%
+  # Step 4: Membuat dummy ASEAN
+  mutate(asean_dummy = ifelse(partner %in% asean_countries, 1, 0))
+
+# Memeriksa struktur data
+str(gravity_data)
+
+# Melihat beberapa baris pertama untuk memastikan data terstruktur dengan benar
+head(gravity_data)
+
+# Memeriksa missing values
+missing_check <- colSums(is.na(gravity_data))
+print(missing_check)
+
+# Melihat ringkasan statistik
+summary(gravity_data)
+
+# Menampilkan jumlah observasi per tahun
+table(gravity_data$year)
+
+# Menampilkan jumlah observasi per partner
+table(gravity_data$partner)
+
+# Transformasi log setelah memastikan data bersih
+gravity_data_final <- gravity_data %>%
+  mutate(
+    ln_exports = log(exports),
+    ln_gdp_indonesia = log(gdp_indonesia),
+    ln_gdp_partner = log(gdp_partner),
+    ln_distance = log(distance)
+  )
+
+# Cetak tabel dengan kable
+gravity_data_final %>%
+  kable("html", caption = "Gravity Data Final") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive", "bordered"))
+
+
+```
+
+Sumber data: World Bank, UN Comtrade, CEPII.
+
+![Logo World Bank](WorldBank.jpg){fig-alt="Logo World Bank."
+fig-align="left" width="30%"} ![Logo UN
+Comtrade](comtradelogo.png){fig-alt="Logo UN Comtrade."
+fig-align="center" width="30%"} ![Logo
+CEPII](CEPII.jpeg){fig-alt="Logo CEPII." fig-align="right" width="30%"}
+
+### Plot (Visualisasi Data)
+
+#### Plot Level (Original Data)
+
+```{r}
+#| label: fig-mpglv1
+#| fig-cap: "Plot level Ekspor vs PDB Indonesia"
+#Visualisasi Data
+## 1.1 Plot Level (Original Data)
+# Plot Exports vs GDP Indonesia
+plot1_level <- ggplot(gravity_data_final, 
+                      aes(x = gdp_indonesia, y = exports)) +
+  geom_point(alpha = 0.5, color = "black") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Ekspor vs GDP Indonesia (Level)",
+       x = "GDP Indonesia (USD)",
+       y = "Exports (USD)") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
+# Menampilkan plot
+print(plot1_level)
+```
+
+```{r}
+#| label: fig-mpglv2
+#| fig-cap: "Plot level Ekspor vs PDB Partner"
+# Plot Exports vs GDP Partner
+plot2_level <- ggplot(gravity_data_final, 
+                      aes(x = gdp_partner, y = exports)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Ekspor vs GDP Partner (Level)",
+       x = "GDP Partner (USD)",
+       y = "Exports (USD)") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
+# Menampilkan plot
+print(plot2_level)
+```
+
+```{r}
+#| label: fig-mpglv3
+#| fig-cap: "Plot level Ekspor vs Jarak"
+# Plot Exports vs Distance
+plot3_level <- ggplot(gravity_data_final, 
+                      aes(x = distance, y = exports)) +
+  geom_point(alpha = 0.5, color = "brown") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Ekspor vs Distance (Level)",
+       x = "Distance (KM)",
+       y = "Exports (USD)") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
+# Menampilkan plot
+print(plot3_level)
+```
+
+#### Plot Log Transformation
+
+```{r}
+#| label: fig-mpgln1
+#| fig-cap: "Plot Log Ekspor vs Log PDB Indonesia"
+## 1.2 Plot Log Transformation
+# Plot Log Exports vs Log GDP Partner
+plot1_log <- ggplot(gravity_data_final, 
+                    aes(x = ln_gdp_indonesia, y = ln_exports)) +
+  geom_point(alpha = 0.5, color = "black") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Log Ekspor vs Log GDP Indonesia",
+       x = "Log GDP Indonesia",
+       y = "Log Exports")
+# Menampilkan plot
+print(plot1_log)
+```
+
+```{r}
+#| label: fig-mpgln2
+#| fig-cap: "Plot log Ekspor vs log PDB Partner"
+# Plot Log Exports vs Log GDP Partner
+plot2_log <- ggplot(gravity_data_final, 
+                    aes(x = ln_gdp_partner, y = ln_exports)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Log Ekspor vs Log GDP Partner",
+       x = "Log GDP Partner",
+       y = "Log Exports")
+# Menampilkan plot
+print(plot2_log)
+```
+
+```{r}
+#| label: fig-mpgln3
+#| fig-cap: "Plot log Ekspor vs log Jarak"
+# Plot Log Exports vs Log Distance
+plot3_log <- ggplot(gravity_data_final, 
+                    aes(x = ln_distance, y = ln_exports)) +
+  geom_point(alpha = 0.5, color = "brown") +
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(title = "Log Ekspor vs Log Distance",
+       x = "Log Distance",
+       y = "Log Exports")
+# Menampilkan plot
+print(plot3_log)
+```
+
+#### Plot Level vs Plot Log
+
+```{r}
+#| label: fig-mpgvs1
+#| fig-cap: "Ekspor vs PDB Indonesia"
+
+# Menampilkan plot level vs log dengan gridExtra
+#plot ekspor vs gdp indonesia 
+grid.arrange(plot1_level, plot1_log, ncol = 1)
+```
+
+Ekspor vs PDB Indonesia:
+
+-   **Plot Level:** Pada plot ini, terlihat hubungan positif antara PDB
+    Indonesia (dalam level) dan nilai ekspor. Artinya, semakin besar PDB
+    Indonesia, semakin tinggi nilai ekspor yang dihasilkan. Namun,
+    penyebaran data menunjukkan variasi yang cukup besar pada nilai
+    ekspor untuk GDP tertentu.
+
+-   **Plot Log:** Hubungan antara log PDB Indonesia dan log ekspor lebih
+    terstruktur dan linier, menunjukkan bahwa transformasi log
+    mengurangi penyimpangan data dan memperjelas korelasi positif. Hal
+    ini mengindikasikan bahwa peningkatan PDB Indonesia berkaitan dengan
+    peningkatan nilai ekspor dalam skala yang lebih stabil.
+
+```{r}
+#| label: fig-mpgvs2
+#| fig-cap: "Ekspor vs PDB Partner"
+
+#plot ekspor vs gdp partner 
+grid.arrange(plot2_level, plot2_log, ncol = 1)
+```
+
+Ekspor vs PDB Negara Partner:
+
+-   **Plot Level:** Grafik menunjukkan hubungan positif antara PDB
+    negara mitra dagang ASEAN (dalam level) dan nilai ekspor Indonesia.
+    Semakin besar PDB negara mitra, semakin tinggi nilai ekspor
+    Indonesia ke negara tersebut. Hal ini mencerminkan daya beli negara
+    mitra yang lebih besar mendorong peningkatan permintaan terhadap
+    produk Indonesia.
+
+-   **Plot Log:** Hubungan log PDB negara mitra dengan log ekspor
+    menunjukkan pola yang lebih linier dan signifikan, mengindikasikan
+    bahwa transformasi log memberikan hasil analisis yang lebih
+    konsisten dan memvalidasi model gravitasi, di mana PDB negara mitra
+    menjadi faktor penting dalam menentukan nilai ekspor.
+
+```{r}
+#| label: fig-mpgvs3
+#| fig-cap: "Ekspor vs Jarak Negara"
+
+#plot ekspor vs distance
+grid.arrange(plot3_level, plot3_log, ncol = 1)
+```
+
+Ekspor vs Jarak:
+
+-   **Plot Level:** Hubungan antara jarak ekonomi (dalam level) dan
+    nilai ekspor menunjukkan korelasi negatif. Semakin jauh jarak antara
+    Indonesia dan negara mitra dagang, semakin kecil nilai ekspornya.
+    Hal ini sesuai dengan prediksi model gravitasi, di mana jarak
+    meningkatkan biaya transportasi dan menurunkan efisiensi
+    perdagangan.
+
+-   **Plot Log:** Hubungan log jarak ekonomi dengan log ekspor juga
+    menunjukkan pola yang konsisten dengan hubungan negatif.
+    Transformasi log membantu memperjelas penurunan nilai ekspor seiring
+    dengan meningkatnya jarak ekonomi, memperkuat relevansi jarak
+    sebagai variabel penghambat dalam model gravitasi.
+
+### Metode analisis
+
+Metode yang dipilih adalah Model Gravity yang dilakukan dengan
+menganalisis hubungan antara faktor-faktor ekonomi suatu negara (seperti
+PDB) dan faktor geografis (seperti jarak ekonomi) terhadap nilai
+perdagangan, dalam hal ini ekspor Indonesia ke negara mitra
+ASEAN.Spesifikasi yang dilakukan adalah:
+
+*Model Gravitasi Standar*
+
+$$
+X_{ij} = \beta_0 \cdot \left( GDP_i \right)^{\beta_1} \cdot \left( GDP_j \right)^{\beta_2} \cdot \left( Dist_{ij} \right)^{\beta_3} \cdot \epsilon_{ij}
+$$
+
+Di mana:
+
+-   $X_{ij}$ : Nilai ekspor dari negara $i$ (Indonesia) ke negara $j$
+    (mitra dagang ASEAN).
+
+-   $GDP_i$ : PDB negara asal (Indonesia).
+
+-   $GDP_j$ : PDB negara tujuan (mitra ASEAN).
+
+-   $Dist_{ij}$ : Jarak ekonomi antara negara $i$ dan $j$.
+
+-   $\epsilon_{ij}$ : Error term untuk variasi yang tidak dijelaskan
+    oleh model.
+
+*Model Transformasi Log-Linier*
+
+$$
+\ln(X_{ij}) = \beta_0 + \beta_1 \ln(GDP_i) + \beta_2 \ln(GDP_j) + \beta_3 \ln(Dist_{ij}) + \epsilon_{ij}
+$$ Di mana: - Semua variabel diubah ke logaritma natural $(ln)$.
+
+Model ini digunakan karena variabel-variabel dalam data (level)
+seringkali memiliki distribusi tidak normal dan perbedaan skala yang
+besar, model standar biasanya ditransformasikan ke bentuk log-linier
+untuk estimasi yang lebih baik. Transformasi log ini bertujuan untuk
+mengatasi heteroskedastisitas dan memberikan interpretasi parameter
+dalam bentuk elastisitas.
+
+### Analisis Masalah
+
+#### Regresi
+
+##### Regresi Data Level
+
+```{r}
+## 2.1 Regresi Level
+# Model dasar (level)
+reg_level <- lm(exports ~ gdp_indonesia + gdp_partner + distance + asean_dummy, 
+                data = gravity_data_final)
+
+# Summary regresi level
+summary(reg_level)
+```
+
+-   PDB negara mitra:
+
+    -   Jika PDB negara mitra naik sebesar 1 USD, maka ekspor Indonesia
+        ke negara tersebut diperkirakan meningkat sebesar 0,01982 USD.
+
+    <!-- -->
+
+    -   Variabel ini sangat signifikan (p-value \< 0,001), menunjukkan
+        bahwa kapasitas ekonomi negara mitra merupakan faktor penting
+        dalam menentukan nilai ekspor.
+
+-   PDB Indonesia:
+
+    -   Jika PDB Indonesia naik sebesar 1 USD, maka ekspor Indonesia ke
+        negara mitra diperkirakan meningkat sebesar 0,003087 USD.
+
+    <!-- -->
+
+    -   Namun, pengaruh variabel ini kurang signifikan pada tingkat
+        kepercayaan 95% (p-value = 0,0604), meskipun ada indikasi
+        hubungan positif.
+
+-   Jarak Ekonomi:
+
+    -   Jika jarak antara Indonesia dan negara mitra bertambah 1
+        kilometer, maka nilai ekspor Indonesia ke negara tersebut
+        diperkirakan turun sebesar 2,245 juta USD.
+
+    <!-- -->
+
+    -   Variabel ini signifikan (p-value \< 0,001), menunjukkan bahwa
+        jarak geografis menjadi hambatan penting dalam perdagangan
+        internasional.
+
+-   Dummy Asean:
+
+    -   Variabel ini tidak dapat diestimasi dalam model karena
+        kolinearitas. Oleh karena itu, pengaruh keanggotaan dalam ASEAN
+        terhadap nilai ekspor tidak dapat disimpulkan dari hasil regresi
+        ini.
+
+##### Regresi Data Log
+
+```{r}
+## 2.2 Regresi Log
+# Model log-log
+reg_log <- lm(ln_exports ~ ln_gdp_indonesia + ln_gdp_partner + ln_distance + asean_dummy, 
+              data = gravity_data_final)
+
+# Summary regresi log
+summary(reg_log)
+```
+
+-   ln PDB negara mitra:
+
+    -   Jika PDB negara mitra naik sebesar 1% (dalam logaritma natural),
+        maka nilai ekspor Indonesia ke negara tersebut akan meningkat
+        rata-rata sebesar 1,5128%, dengan asumsi variabel lain tetap.
+
+    -   Variabel ini sangat signifikan (p-value \< 0,001), menunjukkan
+        bahwa PDB negara mitra merupakan faktor penting yang secara kuat
+        memengaruhi ekspor Indonesia.
+
+-   ln PDB Indonesia:
+
+    -   Jika PDB Indonesia naik sebesar 1% (dalam logaritma natural),
+        maka nilai ekspor Indonesia ke negara mitra diperkirakan
+        meningkat rata-rata sebesar 0,6094%, dengan asumsi variabel lain
+        tetap.
+
+    <!-- -->
+
+    -   Variabel ini tidak signifikan (p-value = 0,4728), menunjukkan
+        bahwa pengaruh PDB Indonesia terhadap ekspor tidak kuat secara
+        statistik.
+
+-   ln Jarak Ekonomi:
+
+    -   Jika jarak ekonomi antarnegara meningkat sebesar 1% (dalam
+        logaritma natural), maka nilai ekspor Indonesia ke negara
+        tersebut rata-rata turun sebesar 1,0191%, dengan asumsi variabel
+        lain tetap.
+
+    <!-- -->
+
+    -   Variabel ini signifikan (p-value \< 0,001), menunjukkan bahwa
+        jarak memiliki pengaruh negatif yang signifikan terhadap nilai
+        ekspor.
+
+-   ln Dummy ASEAN:
+
+    -   Tidak dihitung dalam model karena mengalami singularitas. Hal
+        ini mungkin disebabkan oleh kolinearitas dengan variabel
+        lainnya.
+
+##### Plot Regresi
+
+*Plot untuk data level*
+
+```{r}
+## 3.1 Diagnostic Plots untuk Model Level
+par(mfrow = c(2,2))
+plot(reg_level)
+```
+
+Plot diagnostik residual untuk model regresi data level menunjukkan
+beberapa potensi masalah. Pada plot Residuals vs Fitted dan
+Scale-Location, terdapat indikasi pelanggaran asumsi homoskedastisitas,
+di mana varian residual cenderung meningkat seiring nilai prediksi yang
+lebih tinggi. Q-Q plot menunjukkan bahwa residual tidak sepenuhnya
+mengikuti distribusi normal, terutama pada ekor atas dan bawah.
+
+Selain itu, pada plot Residuals vs Leverage, beberapa pengamatan
+memiliki leverage tinggi, tetapi tidak ada yang melampaui garis Cook's
+distance, sehingga tidak terlalu memengaruhi model secara signifikan.
+Secara keseluruhan, asumsi homoskedastisitas dan normalitas residual
+perlu diperhatikan, serta evaluasi lebih lanjut terhadap pengamatan
+dengan leverage tinggi disarankan untuk meningkatkan validitas model.
+
+*Plot untuk data log*
+
+```{r}
+## 3.2 Diagnostic Plots untuk Model Log
+par(mfrow = c(2,2))
+plot(reg_log)
+```
+
+Plot diagnostik residual untuk model regresi log menunjukkan performa
+model yang lebih baik dibanding model data level. Pada plot Residuals vs
+Fitted, pola residual terlihat lebih terdistribusi secara acak,
+menunjukkan bahwa asumsi linearitas antara variabel prediktor logaritmik
+dan log ekspor cukup terpenuhi. Q-Q plot menunjukkan distribusi residual
+yang hampir mengikuti garis diagonal, meskipun terdapat sedikit deviasi
+di ujung ekor, yang menunjukkan normalitas residual sebagian besar
+terpenuhi.
+
+Plot Scale-Location mengindikasikan varians residual yang lebih stabil
+dibanding model data level, meskipun terdapat sedikit pola pada bagian
+tertentu. Pada plot Residuals vs Leverage, tidak ada pengamatan yang
+memiliki leverage tinggi melebihi garis Cook's distance, sehingga tidak
+ada pengamatan yang terlalu memengaruhi model. Secara keseluruhan, model
+log menunjukkan kinerja yang lebih baik dan lebih sesuai untuk data ini.
+
+##### Hasil Akhir Regresi
+
+```{r}
+
+# 4. MEMBUAT TABEL HASIL REGRESI YANG RAPI
+library(stargazer)
+# Export hasil ke format text
+stargazer(reg_level, reg_log,
+          title = "Hasil Regresi Gravity Model",
+          column.labels = c("Level Model", "Log Model"),
+          type = "text",
+          digits = 3,
+          out = "regression_results.txt")
+
+```
+
+## Kesimpulan
+
+Berdasarkan hasil regresi dari Gravity Model pada dua pendekatan (model
+level dan model logaritmq), ditemukan bahwa variabel independen yang
+dipilih, yaitu PDB Indonesia, PDB negara mitra dagang, dan jarak
+geografis, memiliki pengaruh yang signifikan terhadap nilai ekspor
+Indonesia ke negara-negara ASEAN. Penjelasan rinci untuk masing-masing
+variabel adalah sebagai berikut:
+
+-   **PDB Indonesia**
+
+    -   Pada model level, PDB Indonesia memiliki pengaruh positif dan
+        signifikan pada tingkat 10%. Setiap peningkatan 1 USD dalam PDB
+        Indonesia diestimasikan akan meningkatkan ekspor ke
+        negara-negara ASEAN sebesar 0,003 USD.
+
+    <!-- -->
+
+    -   Pada model logaritmik, koefisien PDB Indonesia positif (0,609),
+        namun tidak signifikan. Ini menunjukkan bahwa pengaruh PDB
+        Indonesia terhadap ekspor dalam konteks model logaritmik kurang
+        jelas.
+
+-   **PDB negara partner**
+
+    -   Pada kedua model, PDB negara mitra dagang memiliki pengaruh
+        positif dan signifikan. Pada model level, setiap peningkatan 1
+        USD dalam PDB negara mitra dagang akan meningkatkan ekspor
+        Indonesia sebesar 0,02 USD. Sementara pada model logaritmik,
+        setiap kenaikan 1% dalam PDB negara mitra dagang diestimasikan
+        meningkatkan ekspor Indonesia sebesar 1,513%, menjadikannya
+        variabel dengan pengaruh terbesar terhadap nilai ekspor.
+
+-   **Jarak Geografis**
+
+    -   Pada model level, jarak geografis memiliki pengaruh negatif dan
+        signifikan. Setiap peningkatan jarak 1 km diestimasikan akan
+        mengurangi ekspor Indonesia ke negara mitra ASEAN sebesar 2,24
+        juta USD.
+
+    <!-- -->
+
+    -   Pada model logaritmik, koefisien jarak juga signifikan dan
+        negatif. Setiap kenaikan 1% dalam jarak geografis diperkirakan
+        akan menurunkan ekspor sebesar 1,019%.
+
+-   **Kesimpulan Umum**
+
+    -   Dari kedua model, dapat disimpulkan bahwa:
+
+        -   PDB negara mitra dagang memiliki hubungan yang signifikan
+            dan konsisten terhadap nilai ekspor Indonesia ke
+            negara-negara ASEAN, menunjukkan bahwa semakin besar PDB
+            negara mitra, semakin besar pula permintaan mereka terhadap
+            produk Indonesia.
+
+        -   Jarak geografis memiliki pengaruh negatif yang signifikan
+            terhadap ekspor, menunjukkan bahwa biaya transportasi atau
+            hambatan jarak masih menjadi faktor penting dalam
+            perdagangan internasional Indonesia.
+
+        -   PDB Indonesia memiliki pengaruh yang signifikan pada model
+            level, namun tidak signifikan pada model logaritmik,
+            sehingga pengaruhnya terhadap ekspor mungkin bergantung pada
+            skala analisis.
+
+    Secara keseluruhan, terdapat hubungan yang signifikan dari variabel
+    independen yang dipilih terhadap nilai ekspor Indonesia ke
+    negara-negara ASEAN, dengan PDB negara mitra dan jarak geografis
+    sebagai faktor paling dominan. Model logaritmik memberikan
+    interpretasi elastisitas yang lebih intuitif, sehingga lebih
+    disarankan untuk digunakan dalam analisis ini.
+
+## Referensi
+
+Centre d'Études Prospectives et d'Informations Internationales (CEPII).
+(n.d.). Distance dataset. CEPII. Retrieved January 4, 2025, from
+http://www.cepii.fr
+
+M.S. Amir (2000). Ekspor Impor Teori dan Penerapannya. PPm. Jakarta. Hal
+2.
+
+M.S. Amir (2003). Seluk Beluk Perdagangan Luar Negeri. Edisi 13. PPm.
+Jakarta. Hal 49.
+
+Puji. A. (2024), Analisis Gravity Model Terhadap Ekspor Kopi Indonesia.
+Skripsi Thesis, Uin Sunan Kalijaga Yogyakarta.
+
+Puspandari, T. dkk., (2022). Pengaruh Ekspor dan Impor terhadap
+Pertumbuhan Ekonomi di Indonesia. Jurnal Ilmiah Ilmu Pendidikan, 5(11).
+
+Rony. Y., Sirait. T., Penerapan Model Gravitasi Data Panel: Kajian
+Perdagangan Internasional Indonesia ke Negara Anggota ASEAN. Seminar
+Nasional Official Statistics 2019: (726)
+
+United Nations. (n.d.). UN Comtrade Database. United Nations. Retrieved
+January 3, 2025, from https://comtrade.un.org
+
+World Bank. (n.d.). World Development Indicators. World Bank. Retrieved
+January 3, 2025, from
+https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
+:::
